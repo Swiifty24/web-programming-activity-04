@@ -75,4 +75,39 @@ class library
 
         return false;
     }
+
+    public function fetchBook($b_id) {
+        $sql = "SELECT * FROM books WHERE id = :id";
+        $query = $this->db->connect()->prepare($sql);
+
+        $query->bindParam(":id", $b_id);
+
+        if ($query->execute()) {
+            return $query->fetch();
+        } else {
+            return null;
+        }
+    }
+
+    public function editBook($b_id) {
+        $sql = "UPDATE books SET title = :title, author = :author, genre = :genre, publication_year = :publication_year WHERE id=:id";
+
+        $query = $this->db->connect()->prepare($sql);
+        
+        $query->bindParam(":title", $this->title);
+        $query->bindParam(":author", $this->author);
+        $query->bindParam(":genre", $this->genre);
+        $query->bindParam(":publication_year", $this->publication_date);
+        $query->bindParam(":id", $b_id);
+        return $query->execute();
+    }
+
+    public function deleteBook($b_id, ) {
+        $sql = "UPDATE books SET status = 'NOT ACTIVE' WHERE id=:id";
+
+        $query = $this->db->connect()->prepare($sql);
+
+        $query->bindParam(":id", $b_id);
+        return $query->execute();
+    }
 }
